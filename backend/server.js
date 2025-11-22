@@ -1,11 +1,17 @@
+// Environment variables
 import dotenv from 'dotenv';
+// Core libraries
 import express from 'express';
-import authRoutes from './routes/authRoutes.js';
-import errorHandling from './middlewares/errorHandling.js';
-import loggerHandling from './middlewares/loggerHandling.js';
-import notFoundHandling from './middlewares/errorHandling.js';
 import cors from 'cors';
+// Database
 import db from './config/db.js';
+// Middlewares
+import loggerHandling from './middlewares/loggerHandling.js';
+import errorHandling from './middlewares/errorHandling.js';
+import notFoundHandling from './middlewares/notFoundHandling.js';
+// Routes
+import authRoutes from './routes/authRoutes.js';
+import storyRoutes from './routes/storyRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -28,7 +34,8 @@ async function testDbConnection() {
     }
 }
 
-app.use("/api/auth" , authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/story", storyRoutes);
 
 
 app.use(errorHandling);
