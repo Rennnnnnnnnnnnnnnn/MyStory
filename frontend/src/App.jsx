@@ -11,8 +11,6 @@ export default function App() {
 
   const { user, isAuthenticated, login, logout } = useAuth();
 
-  console.log(isAuthenticated, "qweqwe")
-
   return (
     <>
       <BrowserRouter>

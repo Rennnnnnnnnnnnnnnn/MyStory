@@ -1,4 +1,3 @@
-import { Console } from 'console';
 import db from '../config/db.js';
 
 //UPLOAD STORY
@@ -13,14 +12,25 @@ export const createStory = async (req, res) => {
     console.log(heading, "+", content, "+", createDate)
 
     if (!content) {
-        return res.status(404).json({ message: "Story's content cannot be empty." })
+        return res.status(404).json({ message: "Storys content cannot be empty." })
     }
 
     try {
         await db.query(`INSERT INTO posts (heading, user_id, content, create_date) VALUES (?, ?, ?, ?)`, [heading, userID, content, createDate])
-
+        console.log("STORY UPLOADED")
     } catch (error) {
-
+        console.log("QWEQWEQQWE ", error)
     }
 
+}
+
+
+
+// GET PRIVATE STORIES
+export const getPrivateStories = async (req, res) => {
+    const body = req.body;
+
+    console.log("badi", body);
+
+  
 }

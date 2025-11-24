@@ -16,13 +16,6 @@ function AuthProvider({ children }) {
         setUser(null);
     }
 
-    // const getUser = async () => {
-    //     try {
-    //         const res = await
-    //     } catch (error) {
-            
-    //     }
-    // }
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>

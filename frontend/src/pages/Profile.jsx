@@ -1,12 +1,11 @@
 import { useAuth } from "./auth/AuthProvider";
 
 import CreateStoryModal from "../components/modals/createStoryModal";
+import StoryArea from "../components/profile-components/StoryArea";
 
 function Profile() {
 
     const { user, isAuthenticated, logout } = useAuth();
-
-    console.log("userz", user)
 
     return (
         <>
@@ -16,8 +15,10 @@ function Profile() {
                 +
             </button>
 
-            <CreateStoryModal />
-
+            <CreateStoryModal /> 
+            {/* <div className="content-area">
+                <StoryArea />
+            </div> */}
         </>
     )
 }
