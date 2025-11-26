@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../../pages/auth/AuthProvider";
+import axiosInstance from "../../pages/auth/axiosInstance";
+
 
 export default function CreateStoryModal() {
     const [story, setStory] = useState({
@@ -19,12 +20,12 @@ export default function CreateStoryModal() {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post("/api/story/createStory", {
+            const res = await axiosInstance.post("/api/story/createStory", {
                 story,
                 user
             })
 
-            console.log("story uploaded")
+          
         } catch (error) {
 
         }
@@ -32,7 +33,6 @@ export default function CreateStoryModal() {
 
     const handleCancel = () => {
         setStory({ heading: "", content: "" });
-        console.log("Cancelled");
     };
 
     return (

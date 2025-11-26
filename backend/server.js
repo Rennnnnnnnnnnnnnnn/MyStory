@@ -21,7 +21,11 @@ const app = express();
 const PORT = process.env.PORT || 1000;
 
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true               
+}));
+
 app.use(loggerHandling);
 app.use(express.json());
 app.use(cookieParser());
@@ -37,7 +41,7 @@ async function testDbConnection() {
 }
 
 app.use("/api/auth", authRoutes);
-app.use("/api/story", authenticate , storyRoutes);
+app.use("/api/story", authenticate, storyRoutes);
 
 app.use(errorHandling);
 app.use(notFoundHandling);

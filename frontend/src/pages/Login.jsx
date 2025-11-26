@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { useAuth } from "./auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "./auth/axiosInstance.js";
 
 function LoginAccount() {
     const { login } = useAuth();
@@ -19,13 +19,14 @@ function LoginAccount() {
         e.preventDefault();
 
         try {
-            const res = await axios.post("/api/auth/login", info);
+            const res = await axiosInstance.post("/api/auth/login", info);
             setSuccessMessage(res.data.message);
             login(res.data.userData);
-            console.log("qweq " , res.data)
+            console.log("res" , res.data)
             navigate("/profile");
         } catch (error) {
             setError(error.response?.data?.error || "Login failed. Please try again.");
+        
             setSuccessMessage("");
         }
     };

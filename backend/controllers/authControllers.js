@@ -40,7 +40,6 @@ export const registerUser = async (req, res) => {
     }
 };
 
-
 // LOGIN USER
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -64,6 +63,7 @@ export const loginUser = async (req, res) => {
         if (!valid) {
             return res.status(401).json({ error: "Invalid password!" });
         }
+        
         // Decrypt email for return
         const decryptedEmail = decrypt(user.email_encrypted);
         const userData = {
@@ -99,5 +99,13 @@ export const loginUser = async (req, res) => {
         console.error("Error during login:", error);
         return res.status(500).json({ error: "Internal server error." });
     }
+};
+
+
+export const verifyUser = (req, res) => {
+   res.json({
+        message: 'Access token refreshed successfully',
+        user: req.user,  // Optionally return user data if needed
+    });
 };
 

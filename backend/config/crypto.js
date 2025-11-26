@@ -1,8 +1,8 @@
 // crypto.js
 import crypto from "crypto";
 
-const SECRET_SALT = process.env.SECRET_SALT;        // Keep in .env
-const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, 'base64');    // Store securely (e.g., ENV)
+const SECRET_SALT = process.env.SECRET_SALT;   
+const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, 'base64');   
 const IV_LENGTH = 16;
 
 // Encrypt
