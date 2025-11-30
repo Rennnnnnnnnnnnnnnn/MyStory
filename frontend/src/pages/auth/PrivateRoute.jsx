@@ -1,17 +1,11 @@
-
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 
-export default function PrivateRoute({ element }) {
+export default function PrivateRoute({ children }) {
     const { isAuthenticated } = useAuth();
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" />
+        return <Navigate to="/login" replace />
     }
-
-    return element
+    return children;
 }
-
-
-
-

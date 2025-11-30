@@ -12,7 +12,6 @@ function AuthProvider({ children }) {
 
     const login = (userData) => {
         setUser(userData);
-        console.log("USER ", user)
     }
 
     const logout = () => {
