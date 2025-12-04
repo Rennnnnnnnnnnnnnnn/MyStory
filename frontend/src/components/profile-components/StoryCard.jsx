@@ -9,7 +9,7 @@ import { useConfirmationModal } from "../modals/modalContext.jsx";
 // Utils / API
 import axiosInstance from "../../pages/auth/axiosInstance";
 
-export default function StoryCard({ stories, isPrivate, handleEditClick, getPrivateStories }) {
+function StoryCard({ stories, isPrivate, handleEditClick, getPrivateStories }) {
     const [expandedStories, setExpandedStories] = useState({});
     const { openConfirmationModal } = useConfirmationModal();
 
@@ -39,64 +39,85 @@ export default function StoryCard({ stories, isPrivate, handleEditClick, getPriv
 
     return (
         <>
-            <div className="p-5">
-                {stories.map(story => {
-                    const isExpanded = expandedStories[story.post_id] || false;
-                    return (
-                        <div
-                            key={story.post_id}
-                            className="bg-orange-200 p-6 mb-4 rounded-lg transition-transform duration-300 hover:scale-101"
-                            onDoubleClick={() => toggleExpanded(story.post_id)}
-                        >
-                            <div className="flex flex-row justify-between">
+            <div className="p-5 lg:mx-40 lg:p-10">
+                {stories.length < 0 ? (
+                    <div className="flex justify-center m-5 text-semibold text-xl">
+                        No uploaded Stories
+                    </div>
+                ) : (
+                    <div>
+                        {stories.map(story => {
+                            const isExpanded = expandedStories[story.post_id] || false;
 
-                                <div className="flex flex-col">
-                                    <small>
-                                        {new Date(story.create_date).toLocaleDateString('en-US', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                        })}
-                                    </small>
+                            return (
+                                <div
+                                    key={story.post_id}
+                                    className="bg-orange-200 p-6 mb-4 rounded-lg transition-transform duration-300 hover:scale-101"
+                                    onDoubleClick={() => toggleExpanded(story.post_id)}
+                                >
+                                    <div className="flex flex-row justify-between">
 
-                                    {isPrivate ? <small>Audience: <span className="font-semibold text-small">{story.audience}</span></small> : null}
-                                </div>
-                                {isPrivate ?
-                                    <div className="flex flex-row gap-2">
-                                        <button
-                                            className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer"
-                                            onClick={() => handleEditClick(story)}
-                                        >
-                                            <img src={EditIcon} alt="Edit" className="h-4 w-4" />
-                                        </button>
-                                        <button
-                                            className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer"
-                                            onClick={() => { handleDeleteClick(story.post_id) }}
-                                        >
-                                            <img
-                                                src={DeleteIcon} alt="Delete" className="h-4 w-4" />
-                                        </button>
-                                    </div> :
+                                        <div className="flex flex-col">
+                                            <small>
+                                                {new Date(story.create_date).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                })}
+                                            </small>
+
+                                            {isPrivate && (
+                                                <small>
+                                                    Audience: <span className="font-semibold text-small">{story.audience}</span>
+                                                </small>
+                                            )}
+                                        </div>
+
+                                        {isPrivate ? (
+                                            <div className="flex flex-row gap-2">
+                                                <button
+                                                    className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer"
+                                                    onClick={() => handleEditClick(story)}
+                                                >
+                                                    <img src={EditIcon} alt="Edit" className="h-4 w-4" />
+                                                </button>
+
+                                                <button
+                                                    className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer"
+                                                    onClick={() => handleDeleteClick(story.post_id)}
+                                                >
+                                                    <img src={DeleteIcon} alt="Delete" className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer">
+                                                <img src={BookmarkIcon} alt="Bookmark" className="h-4 w-4" />
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <h1 className="font-semibold mb-6 mt-3 text-xl">{story.heading || ""}</h1>
+
+                                    <p className={`text-justify whitespace-pre-line ${isExpanded ? "" : "line-clamp-5"}`}>
+                                       {/* {story.content.replace(/\.\n/g, '.\n\n')}  */}
+                                           {story.content} 
+                                    </p>
+
                                     <button
-                                        className="px-3 py-1 border border-gray-400 border-rounded rounded-xl cursor-pointer">
-                                        <img src={BookmarkIcon} alt="Bookmark" className="h-4 w-4" />
+                                        onClick={() => toggleExpanded(story.post_id)}
+                                        className="text-blue-600 font-medium hover:underline mt-2"
+                                    >
+                                        {isExpanded ? "See Less" : "See More"}
                                     </button>
-                                }
-                            </div>
-                            <h1 className="font-semibold mb-6 mt-3 text-xl">{story.heading || ""}</h1>
-                            <p className={`text-justify whitespace-pre-line ${isExpanded ? "" : "line-clamp-5"}`}>
-                                {story.content.replace(/\.\n/g, '.\n\n')}
-                            </p>
-                            <button
-                                onClick={() => toggleExpanded(story.post_id)}
-                                className="text-blue-600 font-medium hover:underline mt-2"
-                            >
-                                {isExpanded ? "See Less" : "See More"}
-                            </button>
-                        </div>
-                    );
-                })}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </>
     );
+
 }
+
+export default StoryCard;

@@ -34,10 +34,6 @@ export const updateStory = async (req, res) => {
     const { content } = req.body;
     const { audience } = req.body;
 
-    const body = req.body;
-
-    console.log("qweqweqewq " , body)
-
     if (!content) {
         return res.status(404).json({ message: "Story's content cannot be empty." })
     }

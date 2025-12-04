@@ -13,9 +13,7 @@ export const registerUser = async (req, res) => {
         return res.status(400).json({ message: "Email and password are required!" });
     }
     try {
-        // Generate blind index
         const emailIndex = blindIndex(email);
-        // Check if encrypted email index already exists
         const [existing] = await db.query(
             "SELECT * FROM users WHERE email_index = ?",
             [emailIndex]
@@ -23,12 +21,12 @@ export const registerUser = async (req, res) => {
         if (existing.length > 0) {
             return res.status(409).json({ error: "Email already exists" });
         }
-        // Encrypt email
+
         const encryptedEmail = encrypt(email);
-        // Hash password with pepper (your existing logic)
+
         const passwordWithPepper = password + process.env.PEPPER_KEY;
         const hashedPassword = await argon2.hash(passwordWithPepper);
-        // Insert encrypted email + blind index
+
         await db.query(
             "INSERT INTO users (email_encrypted, email_index, password) VALUES (?, ?, ?)",
             [encryptedEmail, emailIndex, hashedPassword]
@@ -58,13 +56,11 @@ export const loginUser = async (req, res) => {
             return res.status(400).json({ error: "User not found!" });
         }
         const user = rows[0];
-        // Verify password
         const valid = await argon2.verify(user.password, password + process.env.PEPPER_KEY);
         if (!valid) {
             return res.status(401).json({ error: "Invalid password!" });
         }
-        
-        // Decrypt email for return
+
         const decryptedEmail = decrypt(user.email_encrypted);
         const userData = {
             user_id: user.user_id,
@@ -103,9 +99,8 @@ export const loginUser = async (req, res) => {
 
 
 export const verifyUser = (req, res) => {
-   res.json({
+    res.json({
         message: 'Access token refreshed successfully',
-        user: req.user,  // Optionally return user data if needed
     });
 };
 

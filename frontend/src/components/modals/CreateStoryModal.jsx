@@ -10,7 +10,7 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
         content: "",
         audience: "Only Me"
     });
-    
+
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setStory(prev => ({
@@ -25,7 +25,12 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
                 story,
                 user
             });
-            getPrivateStories();
+            setStory({
+                heading: "",
+                content: "",
+                audience: "Only Me"
+            }),
+                getPrivateStories();
             onClose();
         } catch (error) {
             console.error("Error submitting story:", error);
@@ -35,6 +40,31 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
     const handleCancel = () => {
         onClose();
         setStory({ heading: "", content: "" });
+    };
+
+
+    const handleEnterPress = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); // prevent the default single newline
+
+            const { selectionStart, selectionEnd } = e.target;
+
+            // Insert double newline at the cursor position
+            const newValue =
+                story.content.substring(0, selectionStart) +
+                "\n\n" +
+                story.content.substring(selectionEnd);
+
+            setStory(prev => ({
+                ...prev,
+                content: newValue
+            }));
+
+            // Move cursor after the double newline
+            setTimeout(() => {
+                e.target.selectionStart = e.target.selectionEnd = selectionStart + 2;
+            }, 0);
+        }
     };
 
     if (!isOpen) return null;
@@ -58,6 +88,7 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
                         name="content"
                         value={story.content}
                         onChange={handleInputChange}
+                        onKeyDown={handleEnterPress}
                         placeholder="Write your story..."
                         className="text-justify h-90 p-3 bg-sky-100 border border-blue-300 rounded-xl
                            resize-none focus:outline-none focus:ring-2 

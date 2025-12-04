@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import LogoSana from "../../public/logoSana.jpg";
+import LogoSana from "../assets/logoSana.jpg";
 export default function Navbar() {
     const navigate = useNavigate();
 
