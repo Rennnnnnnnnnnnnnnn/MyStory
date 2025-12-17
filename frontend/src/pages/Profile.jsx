@@ -26,7 +26,7 @@ function Profile() {
 
     const getPrivateStories = async () => {
         try {
-            setIsLoading(true);
+            setIsLoading(false);
             const res = await axiosInstance.get(`/api/story/getPrivateStories/${user_id}`)
             setStories(res.data);
         } catch (error) {
@@ -42,44 +42,45 @@ function Profile() {
 
     return (
         <>
+            <div className="pt-25 bg-gray-800">
 
-            <h1 className="text-3xl text-blue-600 text-center font-semibold mb-2">Your Stories</h1>
-            <div className="flex justify-center items-center">
-                <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 hover:shadow-lg transition transform"
-                    onClick={() => setIsCreateStoryModalOpen(true)}>
-                    CREATE STORY
-                </button>
-            </div>
 
-            {isLoading ?
-                <div className="mt-25">
-                    <Spinner />
+                <h1 className="text-3xl text-white text-center font-semibold mb-2">Your Stories</h1>
+                <div className="flex justify-center items-center">
+                    <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 hover:shadow-lg transition transform"
+                        onClick={() => setIsCreateStoryModalOpen(true)}>
+                        CREATE STORY
+                    </button>
                 </div>
 
-                :
-                <StoryCard
-                    stories={stories}
-                    isPrivate={true}
-                    handleEditClick={handleEditStory}
+                {isLoading
+                    ?
+                    <div className="mt-25">
+                        <Spinner />
+                    </div>
+                    :
+                    <StoryCard
+                        stories={stories}
+                        isPrivate={true}
+                        handleEditClick={handleEditStory}
+                        getPrivateStories={getPrivateStories}
+                    />
+                }
+
+                <CreateStoryModal
+                    isOpen={isCreateStoryModalOpen}
+                    onClose={() => { setIsCreateStoryModalOpen(false) }}
                     getPrivateStories={getPrivateStories}
                 />
-            }
-
-
-
-            <CreateStoryModal
-                isOpen={isCreateStoryModalOpen}
-                onClose={() => { setIsCreateStoryModalOpen(false) }}
-                getPrivateStories={getPrivateStories}
-            />
-            <EditStoryModal
-                isOpen={isEditStoryModalOpen}
-                onClose={() => {
-                    setIsEditStoryModalOpen(false)
-                }}
-                storyToEdit={storyToEdit}
-                getPrivateStories={getPrivateStories}
-            />
+                <EditStoryModal
+                    isOpen={isEditStoryModalOpen}
+                    onClose={() => {
+                        setIsEditStoryModalOpen(false)
+                    }}
+                    storyToEdit={storyToEdit}
+                    getPrivateStories={getPrivateStories}
+                />
+            </div>
         </>
     )
 }

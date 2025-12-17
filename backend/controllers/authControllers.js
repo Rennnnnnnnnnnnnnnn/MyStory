@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
             "INSERT INTO users (email_encrypted, email_index, password) VALUES (?, ?, ?)",
             [encryptedEmail, emailIndex, hashedPassword]
         );
-        return res.status(201).json({ message: "User registered successfully." });
+        return res.status(201).json({ message: "Account registered successfully." });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });

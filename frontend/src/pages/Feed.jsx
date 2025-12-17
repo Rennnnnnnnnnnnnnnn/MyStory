@@ -27,7 +27,7 @@ function Feed() {
 
   return (
     <>
-      <div>
+      <div className="pt-20 bg-gray-800">
         {isLoading ?
           <div className="mt-40">
             <Spinner />
@@ -35,6 +35,7 @@ function Feed() {
           :
           <StoryCard stories={stories} />}
       </div>
+
     </>
   );
 }

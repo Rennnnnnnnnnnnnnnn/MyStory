@@ -41,7 +41,7 @@ async function testDbConnection() {
 }
 
 app.use("/api/auth", authRoutes);
-app.use("/api/story", authenticate, storyRoutes);
+app.use("/api/story", storyRoutes);
 
 app.use(errorHandling);
 app.use(notFoundHandling);

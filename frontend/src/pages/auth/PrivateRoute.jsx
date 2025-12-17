@@ -1,11 +1,40 @@
-import { Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import LoginModal from "../../components/modals/LoginRegisterModal";
+import Spinner from "../../components/others/Spinner";
 
-export default function PrivateRoute({ children }) {
-    const { isAuthenticated } = useAuth();
+export default function PrivateRoute() {
+    const { isAuthenticated, loading } = useAuth();
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [cancelled, setCancelled] = useState(false);
+    const navigate = useNavigate();
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />
+    useEffect(() => {
+        if (!isAuthenticated) {
+            setShowLoginModal(true);
+        }
+    }, [isAuthenticated]);
+
+    if (loading) {
+        return <Spinner />;
     }
-    return children;
+
+    if (isAuthenticated) {
+        return <Outlet />;
+    }
+
+    if (cancelled) {
+        return <Navigate to="/feed" replace />;
+    }
+
+    return (
+        <LoginModal
+            onSuccess={() => {
+                setShowLoginModal(false);
+                navigate("/profile");
+            }}
+            onCancel={() => setCancelled(true)}
+        />
+    );
 }

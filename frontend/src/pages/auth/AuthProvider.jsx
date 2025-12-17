@@ -1,6 +1,7 @@
 
 import { createContext, useState, useContext, useEffect } from 'react';
 import axiosInstance from './axiosInstance';
+import Spinner from '../../components/others/Spinner';
 
 const AuthContext = createContext(null);
 
@@ -34,10 +35,16 @@ function AuthProvider({ children }) {
         verifyUser();
     }, [])
 
-    if (loading) return null;
+
+  
+      
+
+
+
+    if (loading) return <Spinner />;
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

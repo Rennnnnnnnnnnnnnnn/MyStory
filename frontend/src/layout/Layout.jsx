@@ -4,11 +4,11 @@ import { Outlet } from "react-router-dom";
 export default function Layout() {
     return (
         <div className="min-h-screen">
-            <div className="mb-25">
+            <div className="">
                 <Navbar />
             </div>
 
-            <main className="flex-1">
+            <main className="">
                 <Outlet />
             </main>
         </div>
