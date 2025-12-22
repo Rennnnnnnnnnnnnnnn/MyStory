@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import axiosInstance from './auth/axiosInstance.js';
 import StoryCard from '../components/profile-components/StoryCard.jsx';
 import Spinner from '../components/others/Spinner.jsx';
+import { useAuth } from "../pages/auth/AuthProvider.jsx";
+import AnnouncementToast from "../components/others/AnnouncementToast.jsx"
 
 function Feed() {
   const [stories, setStories] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
+
+  const { isAuthenticated, user } = useAuth();
 
   const getPublicStories = async () => {
     try {
@@ -18,7 +22,6 @@ function Feed() {
     } finally {
       setIsLoading(false);
     }
-
   };
 
   useEffect(() => {
@@ -36,6 +39,8 @@ function Feed() {
           <StoryCard stories={stories} />}
       </div>
 
+
+      <AnnouncementToast />
     </>
   );
 }

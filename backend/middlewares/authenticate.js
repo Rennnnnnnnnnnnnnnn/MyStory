@@ -13,7 +13,7 @@ const authenticate = (req, res, next) => {
             const result = verifyJwt(accessToken, process.env.JWT_SECRET_ACCESS_KEY);
 
             if (result.valid) {
-                req.user = result.decoded;
+                req.userData = result.decoded;
                 return next();
             } else if (result.expired) {
                 console.log('Access token expired. Attempting refresh token...');
@@ -48,7 +48,7 @@ const authenticate = (req, res, next) => {
 
             console.log('New access token issued via refresh token.');
 
-            req.user = refreshResult.decoded;
+            req.userData = refreshResult.decoded;
             return next();
         }
 

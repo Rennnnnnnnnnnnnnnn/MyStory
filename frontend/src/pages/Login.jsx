@@ -26,7 +26,6 @@ function LoginAccount() {
             navigate("/profile");
         } catch (error) {
             setError(error.response?.data?.error || "Login failed. Please try again.");
-        
             setSuccessMessage("");
         }
     };

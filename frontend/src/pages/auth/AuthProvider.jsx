@@ -11,6 +11,9 @@ function AuthProvider({ children }) {
     const isAuthenticated = !!user;
     const [loading, setLoading] = useState(true);
 
+
+
+    
     const login = (userData) => {
         setUser(userData);
     }
@@ -26,6 +29,7 @@ function AuthProvider({ children }) {
                     withCredentials: true
                 });
                 setUser(res.data.user);
+                console.log("zxc", res.data.user)
             } catch (error) {
                 setUser(null);
             } finally {

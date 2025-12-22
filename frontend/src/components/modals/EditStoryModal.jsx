@@ -36,7 +36,6 @@ function EditStoryModal({ isOpen, onClose, storyToEdit, getPrivateStories }) {
             message: "Are you sure you want to save the changes to this story? Changes cannot be undone.",
             onConfirm: async () => {
                 try {
-                    console.log("www ", updatedStory)
                     const res = await axiosInstance.put(`/api/story/updateStory/${storyToEdit.post_id}`, {
                         heading: updatedStory.heading,
                         content: updatedStory.content,
@@ -44,12 +43,9 @@ function EditStoryModal({ isOpen, onClose, storyToEdit, getPrivateStories }) {
                     })
 
                     if (res.status === 200) {
-                        console.log("sakses");
                         getPrivateStories();
                         onClose();
-
                     }
-
                 } catch (error) {
                     console.log("Error updating story: ", error)
                 }

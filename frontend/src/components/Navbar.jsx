@@ -6,7 +6,7 @@ function Navbar() {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed z-50 top-0 left-0 w-full bg-gradient-to-l from-blue-200 to-blue-900 p-4">
+        <div className="fixed z-50 top-0 left-0 w-full bg-gradient-to-l from-blue-200 to-blue-900 p-4 border-b-5 border-gray-900">
             <div className="flex justify-between items-center">
                 <div className="flex flex-row gap-3 justify-center items-center">
                     <img

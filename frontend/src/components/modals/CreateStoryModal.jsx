@@ -42,7 +42,6 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
         setStory({ heading: "", content: "" });
     };
 
-
     const handleEnterPress = (e) => {
         if (e.key === "Enter") {
             e.preventDefault(); // prevent the default single newline

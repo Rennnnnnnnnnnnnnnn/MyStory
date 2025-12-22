@@ -43,11 +43,9 @@ function Profile() {
     return (
         <>
             <div className="pt-25 bg-gray-800">
-
-
                 <h1 className="text-3xl text-white text-center font-semibold mb-2">Your Stories</h1>
                 <div className="flex justify-center items-center">
-                    <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 hover:shadow-lg transition transform"
+                    <button className="mt-1 px-4 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 hover:shadow-lg transition transform"
                         onClick={() => setIsCreateStoryModalOpen(true)}>
                         CREATE STORY
                     </button>

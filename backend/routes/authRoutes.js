@@ -8,7 +8,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 router.get('/verifyUser', authenticate, (req, res) => {
-    res.json({ message: 'User is verified!', user: req.user });
+    res.json({ message: 'User is verified!', user: req.userData });
     console.log("BERIPAYD USER");
 });
 

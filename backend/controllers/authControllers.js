@@ -66,6 +66,7 @@ export const loginUser = async (req, res) => {
             user_id: user.user_id,
             email: decryptedEmail
         };
+        
         const accessToken = jwt.sign(userData, process.env.JWT_SECRET_ACCESS_KEY, {
             expiresIn: '5m',
             algorithm: 'HS256'
