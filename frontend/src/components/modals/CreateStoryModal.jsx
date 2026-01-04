@@ -4,6 +4,7 @@ import axiosInstance from "../../pages/auth/axiosInstance";
 
 function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
 
+ 
     const { user } = useAuth();
     const [story, setStory] = useState({
         heading: "",
@@ -117,7 +118,7 @@ function CreateStoryModal({ isOpen, onClose, getPrivateStories }) {
                         className="px-5 py-2.5 bg-blue-600 text-white rounded-xl border border-blue-200
                            hover:bg-blue-800 transition hover:-translate-y-1"
                     >
-                        Submit
+                        Save
                     </button>
 
                     <button

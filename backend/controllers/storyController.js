@@ -73,28 +73,30 @@ export const getPrivateStories = async (req, res) => {
     const { user_id } = req.params;
     try {
         const [stories] = await db.query(`SELECT 
-    p.post_id, 
-    p.heading, 
-    p.content, 
-    p.audience, 
-    p.create_date, 
-    COUNT(l.post_id) AS total_likes
-FROM 
-    posts p
-LEFT JOIN 
-    likes l ON p.post_id = l.post_id
-WHERE 
-    p.user_id = ?
-GROUP BY 
-    p.post_id
-ORDER BY 
-    p.create_date DESC
-`, user_id)
+                p.post_id, 
+                p.heading, 
+                p.content, 
+                p.audience, 
+                p.create_date, 
+                p.total_reads,
+                COUNT(l.post_id) AS total_likes
+            FROM 
+                posts p
+            LEFT JOIN 
+                likes l ON p.post_id = l.post_id
+            WHERE 
+                p.user_id = ?
+            GROUP BY 
+                p.post_id
+            ORDER BY 
+                p.create_date DESC
+            `, user_id)
+
         const decryptedStoryContent = stories.map(story => ({
             ...story,
             content: decrypt(story.content)
         }))
-        console.log(decryptedStoryContent)
+        // console.log(decryptedStoryContent)
         return res.status(200).json(decryptedStoryContent);
     } catch (error) {
         console.error(error);
@@ -154,11 +156,9 @@ export const addLike = async (req, res) => {
 
     try {
         await db.query(`INSERT INTO likes (user_id, post_id) VALUES (?, ?)`, [user_id, post_id])
-        console.log("nag add like")
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error." });
-
     }
 }
 
@@ -167,12 +167,36 @@ export const deleteLike = async (req, res) => {
     const { user_id, post_id } = req.query;
     try {
         await db.query(`DELETE FROM likes WHERE user_id = ? AND post_id = ?`, [user_id, post_id]);
-        console.log("nagdelete like")
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error." });
     }
 }
 
+
+
+
+export const incrementReadCount = async (req, res) => {
+
+    const { post_id } = req.params;
+
+    if (!post_id) return res.status(400).json({ message: "Post ID is required!" })
+
+    try {
+        const [result] = await db.query(
+            "UPDATE posts SET total_reads = total_reads + 1 WHERE post_id = ?",
+            [post_id]
+        );
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Story not found." })
+        }
+
+        return res.status(200).json({ message: "Read count incremented." });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error." });
+    }
+}
 
 

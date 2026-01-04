@@ -45,8 +45,9 @@ const AnnouncementToast = () => {
                     ✕
                 </button>
 
-                <div className="flex flex-col items-center text-center text-sm lg:text-xl">
-                    <p>Stories can be double tapped to either expand or shorten</p>
+                <div className="p-1 h-6 flex items-center text-center justify-center text-[12px] lg:text-xl">
+                    {/* <p>Stories can be double tapped to either expand or collapse</p> */}
+                    <p>Double-tap a story to toggle between expanded and collapsed views.</p>
                 </div>
             </div>
         </div>

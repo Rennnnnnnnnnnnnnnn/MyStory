@@ -9,7 +9,6 @@ function Feed() {
   const [stories, setStories] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
-
   const { isAuthenticated, user } = useAuth();
 
   const getPublicStories = async () => {
@@ -30,7 +29,7 @@ function Feed() {
 
   return (
     <>
-      <div className="pt-20 bg-gray-800">
+      <div className="pt-20 bg-gray-800 min-h-screen">
         {isLoading ?
           <div className="mt-40">
             <Spinner />
@@ -38,7 +37,6 @@ function Feed() {
           :
           <StoryCard stories={stories} />}
       </div>
-
 
       <AnnouncementToast />
     </>

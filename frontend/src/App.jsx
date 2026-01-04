@@ -13,7 +13,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* PUBLIC ROUTES */}
+          PUBLIC ROUTES
           <Route path="/login" element={<LoginAccount />} />
           <Route path="/register" element={<RegisterAccount />} />
 

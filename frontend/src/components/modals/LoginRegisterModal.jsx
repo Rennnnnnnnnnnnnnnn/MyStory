@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../pages/auth/AuthProvider";
 import axiosInstance from "../../pages/auth/axiosInstance";
 
-export default function LoginModal({ onSuccess, onCancel }) {
+export default function LoginRegisterModal({ onSuccess, onCancel, title }) {
     const { login } = useAuth();
     const [info, setInfo] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [isLoginMode, setIsLoginMode] = useState(true);
+    const [isLoginRegisterMode, setIsLoginRegisterMode] = useState(true);
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -19,7 +19,7 @@ export default function LoginModal({ onSuccess, onCancel }) {
         e.preventDefault();
         setLoading(true);
 
-        if (isLoginMode) {
+        if (isLoginRegisterMode) {
             try {
                 const res = await axiosInstance.post("/api/auth/login", info);
                 login(res.data.userData);
@@ -32,7 +32,7 @@ export default function LoginModal({ onSuccess, onCancel }) {
             }
         }
 
-        if (!isLoginMode) {
+        if (!isLoginRegisterMode) {
             try {
                 const res = await axiosInstance.post("/api/auth/register", info);
                 setSuccessMessage(res.data?.message || "Registration successful! Account has been created.");
@@ -51,7 +51,7 @@ export default function LoginModal({ onSuccess, onCancel }) {
         setError("");
         setSuccessMessage("");
         setInfo({ email: "", password: "" })
-    }, [isLoginMode]);
+    }, [isLoginRegisterMode]);
 
     return (
         <div className="fixed inset-0 bg-gray-800 flex justify-center items-center z-50">
@@ -64,13 +64,21 @@ export default function LoginModal({ onSuccess, onCancel }) {
                     ×
                 </button>
 
-                {isLoginMode ? (
+                {isLoginRegisterMode ? (
+                    title ? (
+                        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-4">
+                            {title}
+                        </h2>
+                    ) : (
+                        <h2 className="text-2xl font-semibold text-gray-900 text-center mb-4">
+                            Sign in to your account to view your stories
+                        </h2>
+                    )
+                ) : (
                     <h2 className="text-2xl font-semibold text-gray-900 text-center mb-4">
-                        Sign in to your account to view your stories
+                        Create an account
                     </h2>
-                ) : <h2 className="text-2xl font-semibold text-gray-900 text-center mb-4">
-                    Create an account
-                </h2>}
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -108,7 +116,7 @@ export default function LoginModal({ onSuccess, onCancel }) {
                         disabled={loading}
                         className="w-full py-3 rounded-lg bg-blue-500 border-blue-200 text-white hover:bg-blue-600 font-medium transition"
                     >
-                        {isLoginMode
+                        {isLoginRegisterMode
                             ? (loading ? "Signing in..." : "Sign In")
                             : (loading ? "Creating account..." : "Create Account")
                         }
@@ -116,38 +124,28 @@ export default function LoginModal({ onSuccess, onCancel }) {
                     </button>
                 </form>
 
-                {isLoginMode ? (
+                {isLoginRegisterMode ? (
                     <div className="flex items-center w-full m-1">
-                        {/* Left spacer */}
                         <div className="flex-1"></div>
-
-                        {/* Centered text */}
                         <p className="text-center">
                             Don't have an account?
                         </p>
-
-                        {/* Right-aligned text */}
                         <p
                             className="flex-1 text-right text-blue-600 font-medium cursor-pointer hover:underline"
-                            onClick={() => setIsLoginMode(false)}
+                            onClick={() => setIsLoginRegisterMode(false)}
                         >
                             REGISTER
                         </p>
                     </div>
                 ) : (
                     <div className="flex items-center w-full m-1">
-                        {/* Left spacer */}
                         <div className="flex-1"></div>
-
-                        {/* Centered text */}
                         <p className="text-center">
                             Already have an account?
                         </p>
-
-                        {/* Right-aligned text */}
                         <p
                             className="flex-1 text-right text-blue-600 font-medium cursor-pointer hover:underline"
-                            onClick={() => setIsLoginMode(true)}
+                            onClick={() => setIsLoginRegisterMode(true)}
                         >
                             LOGIN
                         </p>
