@@ -24,9 +24,9 @@ function CheckStoryOverflow({ story, isExpanded, toggleExpanded }) {
                 {story}
             </p>
 
-     {(overflowing || isExpanded) && (
+     {(overflowing) && (
                 <button
-                    onClick={toggleExpanded} // uses parent toggle
+                    onClick={toggleExpanded} 
                     className="text-blue-600 font-medium hover:underline mt-2 cursor-pointer"
                 >
                     {isExpanded ? "Show Less" : "Read More"}

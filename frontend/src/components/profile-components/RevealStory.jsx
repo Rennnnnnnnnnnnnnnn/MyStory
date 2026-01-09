@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-export default function RevealStory({ children, delay = 0 }) {
+export default function RevealStory({ children, delay }) {
     const ref = useRef(null);
     const [visible, setVisible] = useState(false);
 

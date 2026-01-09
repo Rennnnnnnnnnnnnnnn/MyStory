@@ -54,7 +54,7 @@ export default function LoginRegisterModal({ onSuccess, onCancel, title }) {
     }, [isLoginRegisterMode]);
 
     return (
-        <div className="fixed inset-0 bg-gray-800 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-gray-800 flex justify-center items-center z-100">
             <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl p-8 shadow-lg relative">
                 <button
                     onClick={onCancel}

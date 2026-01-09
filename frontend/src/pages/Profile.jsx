@@ -7,6 +7,8 @@ import CreateStoryModal from "../components/modals/CreateStoryModal";
 import EditStoryModal from "../components/modals/EditStoryModal";
 import StoryCard from "../components/profile-components/StoryCard";
 import Spinner from "../components/others/Spinner";
+import { useLocation } from "react-router-dom";
+
 
 function Profile() {
     // Modals
@@ -17,7 +19,7 @@ function Profile() {
     const [storyToEdit, setStoryToEdit] = useState(null);
     // Auth
     const { user: { user_id } } = useAuth();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleEditStory = (story) => {
         setStoryToEdit(story);
@@ -26,9 +28,10 @@ function Profile() {
 
     const getPrivateStories = async () => {
         try {
-            setIsLoading(false);
+            setIsLoading(true);
             const res = await axiosInstance.get(`/api/story/getPrivateStories/${user_id}`)
             setStories(res.data);
+
         } catch (error) {
             console.error("Error fetching private stories: ", error);
         } finally {
@@ -37,8 +40,18 @@ function Profile() {
     }
 
     useEffect(() => {
-        getPrivateStories();
-    }, [])
+        if (user_id) {
+            getPrivateStories();
+        }
+    }, [user_id]);
+
+    if (isLoading) {
+        return (
+            <div className="mt-40 flex justify-center">
+                <Spinner />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -51,19 +64,12 @@ function Profile() {
                     </button>
                 </div>
 
-                {isLoading
-                    ?
-                    <div className="mt-25">
-                        <Spinner />
-                    </div>
-                    :
-                    <StoryCard
-                        stories={stories}
-                        isPrivate={true}
-                        handleEditClick={handleEditStory}
-                        getPrivateStories={getPrivateStories}
-                    />
-                }
+                <StoryCard
+                    stories={stories}
+                    isPrivate={true}
+                    handleEditClick={handleEditStory}
+                    getPrivateStories={getPrivateStories}
+                />
 
                 <CreateStoryModal
                     isOpen={isCreateStoryModalOpen}

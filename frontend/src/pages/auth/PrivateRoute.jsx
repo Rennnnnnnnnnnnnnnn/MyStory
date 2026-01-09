@@ -32,7 +32,7 @@ export default function PrivateRoute() {
         <LoginRegisterModal
             onSuccess={() => {
                 setShowLoginRegisterModal(false);
-                navigate("/profile");
+                // navigate("/profile");
             }}
             onCancel={() => setCancelled(true)}
         />

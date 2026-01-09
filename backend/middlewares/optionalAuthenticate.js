@@ -32,7 +32,7 @@ const optionalAuthenticate = (req, res, next) => {
         // Always call next, even if no valid token exists
         next();
     } catch (err) {
-        console.error('Authentication error:', err);
+        console.error('optionalAuthenticate Authentication error:', err);
         // still continue for optional auth
         next();
     }

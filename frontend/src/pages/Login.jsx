@@ -23,7 +23,7 @@ function LoginAccount() {
             setSuccessMessage(res.data.message);
             login(res.data.userData);
             console.log("res" , res.data)
-            navigate("/profile");
+            // navigate("/profile");
         } catch (error) {
             setError(error.response?.data?.error || "Login failed. Please try again.");
             setSuccessMessage("");

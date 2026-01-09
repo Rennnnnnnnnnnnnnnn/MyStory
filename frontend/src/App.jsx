@@ -6,22 +6,20 @@ import PrivateRoute from "./pages/auth/PrivateRoute";
 import Profile from "./pages/Profile";
 import Layout from "./layout/Layout";
 import Feed from "./pages/Feed";
+import ScrollRestorationWrapper from "./layout/ScrollRestorationWrapper";
 
 export default function App() {
 
   return (
     <>
       <BrowserRouter>
+        <ScrollRestorationWrapper />
         <Routes>
-          PUBLIC ROUTES
-          <Route path="/login" element={<LoginAccount />} />
-          <Route path="/register" element={<RegisterAccount />} />
-
+      
           <Route element={<Layout />}>
             <Route path="/feed" element={<Feed />} />
           </Route>
 
-          {/* PRIVATE ROUTES */}
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
               <Route path="/profile" element={<Profile />} />

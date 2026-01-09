@@ -52,7 +52,7 @@ function StoryTracker({ story, children, isPrivate }) {
         if (!isVisible) {
             secondsViewed.current = 0;
             setHasSentRead(false); // allow re-count if cooldown passed
-            console.log(`Story ${story.post_id} left view — timer reset`);
+       //     console.log(`Story ${story.post_id} left view — timer reset`);
         }
     }, [isVisible, story.post_id]);
 
@@ -62,9 +62,9 @@ function StoryTracker({ story, children, isPrivate }) {
             if (document.visibilityState === "visible" && isVisible && containerRef.current) {
                 secondsViewed.current += 1;
 
-                console.log(
-                    `Story ${story.post_id} viewed for ${secondsViewed.current} seconds`
-                );
+                // console.log(
+                //     `Story ${story.post_id} viewed for ${secondsViewed.current} seconds`
+                // );
 
                 if (secondsViewed.current >= 30 && !hasSentRead) {
                     markAsRead();

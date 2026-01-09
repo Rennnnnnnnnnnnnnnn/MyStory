@@ -152,10 +152,30 @@ export const getPublicStories = async (req, res) => {
 // ADD LIKE
 export const addLike = async (req, res) => {
 
-    const { post_id, user_id } = req.body;
+    const body = req.body;
+    console.log("aaa ", body);
+
+    const { post_id, user_id, uploader_id } = req.body;
+
+    const actor_id = user_id;
+    const recipient_id = uploader_id;
 
     try {
-        await db.query(`INSERT INTO likes (user_id, post_id) VALUES (?, ?)`, [user_id, post_id])
+        await db.query(
+            `INSERT INTO likes (user_id, post_id) VALUES (?, ?)`,
+            [user_id, post_id]
+        );
+
+        await db.query(
+            `UPDATE posts SET total_likes = total_likes + 1 WHERE post_id = ?`,
+            [post_id]
+        );
+
+        await db.query(
+            `INSERT INTO notifications (actor_id, recipient_id, post_id) VALUES (?, ?, ?)`,
+            [actor_id, recipient_id, post_id]
+        );
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error." });
@@ -164,9 +184,16 @@ export const addLike = async (req, res) => {
 
 
 export const deleteLike = async (req, res) => {
-    const { user_id, post_id } = req.query;
+    const { user_id, post_id } = req.body;
     try {
-        await db.query(`DELETE FROM likes WHERE user_id = ? AND post_id = ?`, [user_id, post_id]);
+        const [result] = await db.query(`DELETE FROM likes WHERE user_id = ? AND post_id = ?`, [user_id, post_id]);
+
+        if (result.affectedRows > 0) {
+            await db.query(`UPDATE posts SET total_likes = GREATEST(total_likes - 1, 0) WHERE post_id = ?`, [post_id]);
+
+            await db.query(`DELETE FROM notifications WHERE actor_id = ? AND post_id = ?`,[user_id, post_id]);
+        }
+        return res.status(200).json({ message: "Like removed" });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error." });
